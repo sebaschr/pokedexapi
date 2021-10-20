@@ -1,0 +1,1168 @@
+openapi: 3.0.1
+info:
+  title: KG Pokemon API
+  description: Pokemon API for Konrad developer onboarding.
+  version: 1.0.0
+  contact:
+    name: Konrad dev onboarding team
+    url: "https://gitlab.kgportal.com/"
+servers:
+  - url: "http://localhost:3001/v1"
+    description: local
+tags:
+  - name: pokemon
+    description: Data about pokemon
+  - name: party
+    description: "Manage user's parties"
+  - name: trainer
+    description: User account operations
+paths:
+  /allpokemon:
+    get:
+      tags:
+        - pokemon
+      summary: Returns a list of Pokemon
+      description: |-
+        Returns an array of pokemon data ordered by the Pokemon's number.
+
+        Pagination is handled using the `limit` and `offset` parameters where limit is the maximum number of items to return and offset is the first item.
+
+        Search term should be passed to the `q` parameter.
+      operationId: getAllPokemons
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PokemonDetails"
+              examples:
+                example:
+                  value:
+                    data:
+                      - id: 1
+                        name: Bulbasaur
+                        abilities:
+                          - Overgrow
+                          - Chlorophyll
+                        weight: 6.9
+                        height: 0.7
+                        types:
+                          - grass
+                          - poison
+                        evolutions:
+                          - 2
+                        description: A strange seed was planted on its back at birth. The plant sprouts and grows with this Pokémon.
+                        images:
+                          full: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png"
+                          sprite_front: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
+                          sprite_back: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png"
+                      - id: 2
+                        name: Ivysaur
+                        abilities:
+                          - Overgrow
+                          - Chlorophyll
+                        weight: 13
+                        height: 1
+                        types:
+                          - grass
+                          - poison
+                        evolutions:
+                          - 3
+                        description: When the bulb on its back grows large, it appears to lose the ability to stand on its hind legs.
+                        images:
+                          full: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/002.png"
+                          sprite_front: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"
+                          sprite_back: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/2.png"
+                      - id: 3
+                        name: Venusaur
+                        abilities:
+                          - Overgrow
+                          - Chlorophyll
+                        weight: 100
+                        height: 2
+                        types:
+                          - grass
+                          - poison
+                        evolutions: []
+                        description: The plant blooms when it is absorbing solar energy. It stays on the move to seek sunlight.
+                        images:
+                          full: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/003.png"
+                          sprite_front: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png"
+                          sprite_back: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/3.png"
+                      - id: 4
+                        name: Charmander
+                        abilities:
+                          - Blaze
+                          - Solar Power
+                        weight: 8.5
+                        height: 0.6
+                        types:
+                          - fire
+                        evolutions:
+                          - 5
+                        description: Obviously prefers hot places. When it rains, steam is said to spout from the tip of its tail.
+                        images:
+                          full: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png"
+                          sprite_front: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"
+                          sprite_back: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/4.png"
+        "400":
+          description: Bad Request.
+  /pokemon:
+    get:
+      tags:
+        - pokemon
+      summary: Returns a list of Pokemon
+      description: |-
+        Returns an array of pokemon data ordered by the Pokemon's number.
+
+        Pagination is handled using the `limit` and `offset` parameters where limit is the maximum number of items to return and offset is the first item.
+
+        Search term should be passed to the `q` parameter.
+      operationId: getPokemon
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PokemonDetails"
+              examples:
+                example:
+                  value:
+                    data:
+                      - id: 1
+                        name: Bulbasaur
+                        abilities:
+                          - Overgrow
+                          - Chlorophyll
+                        weight: 6.9
+                        height: 0.7
+                        types:
+                          - grass
+                          - poison
+                        evolutions:
+                          - 2
+                        description: A strange seed was planted on its back at birth. The plant sprouts and grows with this Pokémon.
+                        images:
+                          full: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png"
+                          sprite_front: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
+                          sprite_back: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png"
+                      - id: 2
+                        name: Ivysaur
+                        abilities:
+                          - Overgrow
+                          - Chlorophyll
+                        weight: 13
+                        height: 1
+                        types:
+                          - grass
+                          - poison
+                        evolutions:
+                          - 3
+                        description: When the bulb on its back grows large, it appears to lose the ability to stand on its hind legs.
+                        images:
+                          full: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/002.png"
+                          sprite_front: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"
+                          sprite_back: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/2.png"
+                      - id: 3
+                        name: Venusaur
+                        abilities:
+                          - Overgrow
+                          - Chlorophyll
+                        weight: 100
+                        height: 2
+                        types:
+                          - grass
+                          - poison
+                        evolutions: []
+                        description: The plant blooms when it is absorbing solar energy. It stays on the move to seek sunlight.
+                        images:
+                          full: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/003.png"
+                          sprite_front: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png"
+                          sprite_back: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/3.png"
+                      - id: 4
+                        name: Charmander
+                        abilities:
+                          - Blaze
+                          - Solar Power
+                        weight: 8.5
+                        height: 0.6
+                        types:
+                          - fire
+                        evolutions:
+                          - 5
+                        description: Obviously prefers hot places. When it rains, steam is said to spout from the tip of its tail.
+                        images:
+                          full: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png"
+                          sprite_front: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"
+                          sprite_back: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/4.png"
+        "400":
+          description: Bad Request.
+      parameters:
+        - schema:
+            type: number
+            minimum: 1
+            maximum: 20
+          in: query
+          name: limit
+          description: "Default: 20"
+        - schema:
+            type: number
+          in: query
+          name: offset
+          description: "Default: 0"
+        - schema:
+            type: string
+          in: query
+          name: q
+          description: Search term
+  /pokemonCount:
+    get:
+      tags:
+        - pokemon
+      summary: Get max number of pokemon
+      operationId: getPokemonCount
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              examples:
+                count:
+                  value: 809
+  "/evolutions/{id}":
+    get:
+      tags:
+        - pokemon
+      summary: Get pokemon
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PokemonDetails"
+              examples:
+                pikachu:
+                  value:
+                    id: 25
+                    name: Pikachu
+                    weight: 6
+                    height: 0.4
+                    abilities:
+                      - Static
+                      - Lightning Rod
+                    types:
+                      - electric
+                    evolutions:
+                      - 26
+                    description: When several of these Pokémon gather, their electricity could build and cause lightning storms.
+                    images:
+                      full: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/025.png"
+                      sprite_front: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+                      sprite_back: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/25.png"
+        "400":
+          description: Bad request, ID must be a positive integer.
+        "404":
+          description: Pokemon with specified ID not found
+      operationId: getEvolutions
+      description: "Return data for a single Pokemon using the Pokemon's number or it's name"
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: "The pokemon's number or name"
+  "/pokemon/{id}":
+    get:
+      tags:
+        - pokemon
+      summary: Get pokemon
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PokemonDetails"
+              examples:
+                pikachu:
+                  value:
+                    id: 25
+                    name: Pikachu
+                    weight: 6
+                    height: 0.4
+                    abilities:
+                      - Static
+                      - Lightning Rod
+                    types:
+                      - electric
+                    evolutions:
+                      - 26
+                    description: When several of these Pokémon gather, their electricity could build and cause lightning storms.
+                    images:
+                      full: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/025.png"
+                      sprite_front: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+                      sprite_back: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/25.png"
+        "400":
+          description: Bad request, ID must be a positive integer.
+        "404":
+          description: Pokemon with specified ID not found
+      operationId: getPokemonById
+      description: "Return data for a single Pokemon using the Pokemon's number or it's name"
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: "The pokemon's number or name"
+  /party:
+    get:
+      tags:
+        - party
+      summary: "User's parties"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uri
+                    name:
+                      type: string
+              examples:
+                example:
+                  value:
+                    - name: Dream Party
+                      id: 638ef617-e576-4507-b8c2-a3d2d75668e8
+      operationId: getParty
+      description: "Return IDs and Names of user's parties"
+    post:
+      tags:
+        - party
+      summary: Create party
+      requestBody:
+        description: Specify up to 6 pokemon to add to the new party. Optionally provide a name for the party. IDs are of pokemon your trainer owns.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                pokemon:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of Pokemon IDs (must be created already)
+                  minItems: 1
+                  maxItems: 6
+              required:
+                - pokemon
+            examples:
+              example-body:
+                value:
+                  name: Dream Party
+                  pokemon:
+                    - d99172c9-6321-4bcb-a2d3-bcba2e184d4c
+                    - 9866f4a9-1ac8-43ee-8155-cd649315b922
+      responses:
+        "201":
+          description: Created. Returns new party instance.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Party"
+              examples:
+                example:
+                  value:
+                    name: Dream Party
+                    id: 638ef617-e576-4507-b8c2-a3d2d75668e8
+                    pokemon:
+                      - id: d99172c9-6321-4bcb-a2d3-bcba2e184d4c
+                        abilities:
+                          - blaze
+                        pokemon: 4
+                        level: 8
+                        nickname: null
+                        caught: "2020-04-18T09:22:01.039Z"
+                      - id: 9866f4a9-1ac8-43ee-8155-cd649315b922
+                        abilities:
+                          - static
+                        pokemon: 25
+                        level: 7
+                        nickname: pika
+                        caught: "2020-04-19T19:47:51.156Z"
+                    created: "2020-04-21T14:44:12.345Z"
+                    modified: "2020-04-21T14:52:23.881Z"
+        "400":
+          description: "Bad request. user has too many parties, ID of a pokemon instance wasn't found, more than 6 pokemon submitted, etc."
+      operationId: postParty
+      description: Create a new party
+  "/party/{id}":
+    put:
+      tags:
+        - party
+      summary: Update party
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            description: ID of party to update
+          description: "The Pokemon's unique ID"
+      requestBody:
+        description: Entire party object to be replaced
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                pokemon:
+                  type: array
+                  items:
+                    type: string
+                  description: IDs of pokemon to add to party
+                  minItems: 1
+                  maxItems: 6
+              required:
+                - pokemon
+              type: object
+            examples:
+              example:
+                value:
+                  name: New party name
+                  pokemon:
+                    - d99172c9-6321-4bcb-a2d3-bcba2e184d4c
+      responses:
+        "200":
+          description: Party updated. Returns updated party object.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Party"
+              examples:
+                example:
+                  value:
+                    name: New party name
+                    id: 638ef617-e576-4507-b8c2-a3d2d75668e8
+                    pokemon:
+                      - id: d99172c9-6321-4bcb-a2d3-bcba2e184d4c
+                        abilities:
+                          - blaze
+                        pokemon: 4
+                        level: 8
+                        nickname: null
+                        caught: "2020-04-18T09:22:01.039Z"
+                    created: "2020-04-21T14:44:12.345Z"
+                    modified: "2020-04-21T14:52:23.881Z"
+        "400":
+          description: "Bad Request. Could be missing pokemon, or the pokemon IDs could be invalid."
+        "404":
+          description: Party Not Found
+      description: Updated a specifc party
+      operationId: putParty
+    get:
+      summary: Get a party
+      operationId: getPartyById
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Party"
+              examples:
+                example:
+                  value:
+                    name: Dream Party
+                    id: 638ef617-e576-4507-b8c2-a3d2d75668e8
+                    pokemon:
+                      - id: d99172c9-6321-4bcb-a2d3-bcba2e184d4c
+                        abilities:
+                          - blaze
+                        pokemon: 4
+                        level: 8
+                        nickname: null
+                        caught: "2020-04-18T09:22:01.039Z"
+                      - id: 9866f4a9-1ac8-43ee-8155-cd649315b922
+                        abilities:
+                          - static
+                        pokemon: 25
+                        level: 7
+                        nickname: pika
+                        caught: "2020-04-19T19:47:51.156Z"
+                    created: "2020-04-21T14:44:12.345Z"
+                    modified: "2020-04-21T14:52:23.881Z"
+        "404":
+          description: Party Not Found
+      tags:
+        - party
+      description: "Retreive a user's party"
+    delete:
+      summary: Delete Party
+      operationId: deleteParty
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+      tags:
+        - party
+      description: Delete a party by id
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+  /trainer:
+    get:
+      summary: Get Trainer
+      tags:
+        - trainer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trainer"
+              examples:
+                example:
+                  value:
+                    id: 1bf87ee9-16ff-4365-b69d-8fcc9996c074
+                    firstName: Konrad
+                    lastName: Group
+                    created: "2020-04-21T15:53:11.400Z"
+                    modified: "2020-04-21T15:53:11.400Z"
+                    pokemonOwned: 3
+                    pokemonReleased: 1
+                    pokedex:
+                      seen: 29
+                      caught: 4
+      operationId: getTrainer
+      description: Returns information about your pokemon trainer (user account).
+    patch:
+      summary: Update Profile
+      operationId: patchTrainer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trainer"
+              examples:
+                example:
+                  value:
+                    id: 1bf87ee9-16ff-4365-b69d-8fcc9996c074
+                    firstName: New
+                    lastName: Name
+                    created: "2020-04-21T15:53:11.400Z"
+                    modified: "2020-04-23T18:22:33.490Z"
+                    pokemonOwned: 3
+                    pokemonReleased: 1
+                    pokedex:
+                      seen: 29
+                      caught: 4
+        "400":
+          description: Bad Request
+      description: Update your trainer profile. Returns the entire updated profile.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Trainer"
+            examples:
+              example:
+                value:
+                  firstName: New
+                  lastName: Name
+        description: Object containing any fields to be modified
+      tags:
+        - trainer
+  "/trainer/pokemon/{id}":
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    put:
+      summary: Update a pokemon
+      tags:
+        - trainer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pokemon"
+              examples:
+                example:
+                  value:
+                    id: 1bf87ee9-16ff-4365-b69d-8fcc9996c074
+                    nickname: null
+                    pokemon: 25
+                    level: 12
+                    abilities:
+                      - static
+                      - tackle
+                    caught: "2020-04-22T18:22:33.490Z"
+        "400":
+          description: "Bad Request, make sure entire pokemon object is included (GET it first to verify)."
+        "404":
+          description: Not Found
+      operationId: putTrainerPokemonId
+      description: Update a pokemon. Entire entry must be sent.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pokemon"
+            examples:
+              example:
+                value:
+                  id: 1bf87ee9-16ff-4365-b69d-8fcc9996c074
+                  nickname: null
+                  pokemon: 25
+                  level: 12
+                  abilities:
+                    - static
+                    - tackle
+                  caught: "2020-04-22T18:22:33.490Z"
+        description: Complete pokemon object.
+    get:
+      summary: Get a pokemon
+      tags:
+        - trainer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pokemon"
+              examples:
+                example:
+                  value:
+                    id: d99172c9-6321-4bcb-a2d3-bcba2e184d4c
+                    abilities:
+                      - blaze
+                    pokemon: 4
+                    level: 8
+                    nickname: null
+                    caught: "2020-04-18T09:22:01.039Z"
+        "404":
+          description: Pokemon Not Found
+      operationId: getTrainerPokemonId
+      description: Get a pokemon that is attached to your account
+    delete:
+      summary: Release a pokemon
+      tags:
+        - trainer
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+      operationId: deleteTrainerPokemonId
+      description: 'Delete a pokemon from your account. Also known as "releasing" a pokemon.'
+  /trainer/pokemon:
+    get:
+      summary: Get your pokemon
+      tags:
+        - trainer
+      operationId: getTrainerPokemon
+      description: Lists all the pokemon you have
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pokemon"
+              examples:
+                example:
+                  value:
+                    - id: d99172c9-6321-4bcb-a2d3-bcba2e184d4c
+                      abilities:
+                        - blaze
+                      pokemon: 4
+                      level: 8
+                      nickname: null
+                      caught: "2020-04-18T09:22:01.039Z"
+                    - id: 9866f4a9-1ac8-43ee-8155-cd649315b922
+                      abilities:
+                        - static
+                      pokemon: 25
+                      level: 7
+                      nickname: pika
+                      caught: "2020-04-19T19:47:51.156Z"
+    post:
+      summary: Add new pokemon
+      tags:
+        - trainer
+      responses:
+        "201":
+          description: Created. Returns new pokemon instance.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pokemon"
+              examples:
+                example:
+                  value:
+                    id: 9866f4a9-1ac8-43ee-8155-cd649315b922
+                    nickname: pika
+                    pokemon: 25
+                    level: 7
+                    abilities:
+                      - static
+                    caught: "2020-04-21T15:53:11.400Z"
+        "400":
+          description: "Bad Request. Maybe missing fields, maybe user has too many pokemon already"
+      operationId: postTrainerPokemon
+      description: Add a new pokemon to your account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nickname:
+                  type: string
+                pokemon:
+                  description: ID of the source pokemon
+                  type: number
+                level:
+                  type: number
+                abilities:
+                  type: array
+                  maxItems: 4
+                  minItems: 1
+                  items:
+                    type: string
+              required:
+                - pokemon
+                - level
+                - abilities
+            examples:
+              example:
+                value:
+                  nickname: pika
+                  pokemon: 25
+                  level: 7
+                  abilities:
+                    - static
+        description: New pokemon to add to your account
+  /types:
+    get:
+      summary: Pokemon Type data
+      tags:
+        - pokemon
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      $ref: "#/components/schemas/PokemonTypes"
+                    weaknesses:
+                      type: array
+                      items:
+                        $ref: "#/components/schemas/PokemonTypes"
+                    strengths:
+                      type: array
+                      items:
+                        $ref: "#/components/schemas/PokemonTypes"
+              examples:
+                example:
+                  value:
+                    - name: normal
+                      weaknesses:
+                        - fighting
+                      strengths: []
+                    - name: fighting
+                      weaknesses:
+                        - flying
+                        - psychic
+                        - fairy
+                      strengths:
+                        - normal
+                        - rock
+                        - steel
+                        - ice
+                    - name: flying
+                      weaknesses:
+                        - rock
+                        - electric
+                        - ice
+                      strengths:
+                        - fighting
+                        - bug
+                        - grass
+                    - name: poison
+                      weaknesses:
+                        - psychic
+                        - ground
+                      strengths:
+                        - grass
+                        - fairy
+                    - name: ground
+                      weaknesses:
+                        - ice
+                        - grass
+                        - water
+                      strengths:
+                        - fire
+                        - electric
+                        - poison
+                        - rock
+                        - steel
+                    - name: rock
+                      weaknesses:
+                        - steel
+                        - ground
+                        - fighting
+                        - grass
+                        - water
+                      strengths:
+                        - bug
+                        - flying
+                        - ice
+                        - fire
+                    - name: bug
+                      weaknesses:
+                        - rock
+                        - flying
+                        - fire
+                      strengths:
+                        - dark
+                        - psychic
+                        - grass
+                    - name: ghost
+                      weaknesses:
+                        - dark
+                        - ghost
+                      strengths:
+                        - ghost
+                        - psychic
+                    - name: steel
+                      weaknesses:
+                        - fire
+                        - fighting
+                        - ground
+                      strengths:
+                        - ice
+                        - rock
+                        - fairy
+                    - name: fire
+                      weaknesses:
+                        - water
+                        - ground
+                        - rock
+                      strengths:
+                        - grass
+                        - ice
+                        - bug
+                        - steel
+                    - name: water
+                      weaknesses:
+                        - electric
+                        - grass
+                      strengths:
+                        - fire
+                        - ground
+                        - rock
+                    - name: grass
+                      weaknesses:
+                        - fire
+                        - ice
+                        - poison
+                        - flying
+                        - bug
+                      strengths:
+                        - water
+                        - ground
+                        - rock
+                    - name: electric
+                      weaknesses:
+                        - ground
+                      strengths:
+                        - water
+                        - flying
+                    - name: psychic
+                      weaknesses:
+                        - bug
+                        - ghost
+                        - dark
+                      strengths:
+                        - fighting
+                        - poison
+                    - name: ice
+                      weaknesses:
+                        - fire
+                        - fighting
+                        - rock
+                        - steel
+                      strengths:
+                        - grass
+                        - ground
+                        - flying
+                        - dragon
+                    - name: dragon
+                      weaknesses:
+                        - ice
+                        - dragon
+                        - fairy
+                      strengths:
+                        - dragon
+                    - name: dark
+                      weaknesses:
+                        - fighting
+                        - bug
+                        - fair
+                      strengths:
+                        - psychic
+                        - ghost
+                    - name: fairy
+                      weaknesses:
+                        - poison
+                        - steel
+                      strengths:
+                        - fighting
+                        - dragon
+                        - dark
+      operationId: getTypes
+      description: Get all the types that Pokemon can have. Each type has strengths and weaknesses.
+
+components:
+  schemas:
+    PokemonTypes:
+      type: string
+      enum:
+        - normal
+        - fighting
+        - flying
+        - poison
+        - ground
+        - rock
+        - bug
+        - ghost
+        - steel
+        - fire
+        - water
+        - grass
+        - electric
+        - psychic
+        - ice
+        - dragon
+        - dark
+        - fairy
+      description: All pokemon have one or more of these types
+      title: Pokemon Types
+    Pokemon:
+      description: A Pokemon owned by the trainer
+      title: Pokemon
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of this Pokemon instance
+          format: uuid
+        abilities:
+          type: array
+          description: "The Pokemon's current abilities"
+          items:
+            type: string
+        pokemon:
+          type: number
+          description: Number of the pokemon this is an instance of
+        level:
+          type: integer
+          minimum: 1
+          maximum: 100
+        nickname:
+          type: string
+        caught:
+          type: string
+          format: date-time
+    Party:
+      type: object
+      description: Collection of up to 6 owned pokemon
+      title: Party
+      properties:
+        name:
+          type: string
+          description: Optional party name given by user
+        id:
+          type: string
+          format: uuid
+        pokemon:
+          type: array
+          minItems: 1
+          maxItems: 6
+          items:
+            $ref: "#/components/schemas/Pokemon"
+        created:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+      x-examples:
+        example:
+          name: Dream Party
+          id: 638ef617-e576-4507-b8c2-a3d2d75668e8
+          pokemon:
+            - id: d99172c9-6321-4bcb-a2d3-bcba2e184d4c
+              abilities:
+                - blaze
+              pokemon: 4
+              level: 8
+              nickname: null
+              caught: "2020-04-18T09:22:01.039Z"
+            - id: 9866f4a9-1ac8-43ee-8155-cd649315b922
+              abilities:
+                - static
+              pokemon: 25
+              level: 7
+              nickname: pika
+              caught: "2020-04-19T19:47:51.156Z"
+          created: "2020-04-21T14:44:12.345Z"
+          modified: "2020-04-21T14:52:23.881Z"
+    Badge:
+      title: Badge
+      type: object
+      x-tags:
+        - trainer
+      description: A badge that trainers can earn
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        giver:
+          type: string
+        gym:
+          type: string
+        city:
+          type: string
+        image:
+          type: string
+          format: uri
+    Trainer:
+      title: Trainer
+      type: object
+      x-tags:
+        - trainer
+      description: Details about your character/account
+      properties:
+        id:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        created:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        avatar:
+          type: string
+          format: uri
+        pokedex:
+          type: object
+          properties:
+            seen:
+              type: number
+              minimum: 0
+            caught:
+              type: number
+              minimum: 0
+        pokemonOwned:
+          type: integer
+        pokemonReleased:
+          type: integer
+    PokemonDetails:
+      type: object
+      description: All the information about a single pokemon
+      title: Pokemon Details
+      properties:
+        abilities:
+          type: array
+          description: "The Pokemon's starting moves"
+          items:
+            type: string
+        weight:
+          type: number
+        height:
+          type: number
+        name:
+          type: string
+        id:
+          description: "The pokemon's number in the pokedex"
+          type: number
+        types:
+          type: array
+          description: All pokemon have one or more types
+          items:
+            $ref: "#/components/schemas/PokemonTypes"
+        evolutions:
+          type: array
+          description: "The id(s) of this pokemon's next evolution."
+          items:
+            type: number
+        description:
+          type: string
+        images:
+          format: uri
+          type: object
+          description: Images of this pokemon
+          properties:
+            full:
+              type: string
+              format: uri
+            sprite_front:
+              type: string
+              format: uri
+            sprite_back:
+              type: string
+              format: uri
+  securitySchemes: {}

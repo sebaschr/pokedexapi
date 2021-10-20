@@ -1,0 +1,31 @@
+{
+  "name": "pokedex-api",
+  "version": "1.0.0",
+  "description": "Work in progress API for developer onboarding project. OpenAPI v3.",
+  "main": "./index.js",
+  "exports": "./index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --experimental-modules src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@ssh.gitlab.kgportal.com:kg-internal/dev-onboarding/pokemon-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=8.9"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "js-yaml": "^3.13.1",
+    "oakdex-pokedex": "^0.4.5",
+    "openapi-backend": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.20.2"
+  }
+}
